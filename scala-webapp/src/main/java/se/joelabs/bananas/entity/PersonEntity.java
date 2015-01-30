@@ -23,7 +23,7 @@ public class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private Long id;
+    public Long id;
 
     @Column(name = "NAME")
     public String name;

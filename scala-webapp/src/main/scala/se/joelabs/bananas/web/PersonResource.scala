@@ -6,7 +6,7 @@ import javax.ws.rs.core.MediaType
 
 import se.joelabs.bananas.service.PersonService
 
-case class PersonDTO(name: String, age: Int = 0)
+case class PersonDTO(id: Long, name: String, age: Int = 0)
 
 @Path("/persons")
 class WebApp {
@@ -14,15 +14,14 @@ class WebApp {
   @Path("/")
   @Produces(Array(MediaType.APPLICATION_JSON))
   def persons(): List[PersonDTO] =
-    service.persons.map(pe => PersonDTO(name = pe.name))
+    service.persons.map(pe => PersonDTO(id = pe.id, name = pe.name))
 
   @GET
   @Path("/{id}")
   @Produces(Array(MediaType.APPLICATION_JSON))
   def getPersonByName(@PathParam("id") id: String): PersonDTO = {
-    println(s"ID=$id")
-    val result = service.getPersonByName(java.lang.Long.parseLong(id))
-    PersonDTO(name = result.name)
+    val pe = service.getPersonByName(java.lang.Long.parseLong(id))
+    PersonDTO(id = pe.id, name = pe.name)
   }
 
   @POST
@@ -30,8 +29,8 @@ class WebApp {
   @Produces(Array(MediaType.APPLICATION_JSON))
   @Consumes(Array(MediaType.APPLICATION_JSON))
   def addPerson(newPerson: PersonDTO): PersonDTO = {
-    val result = service.addPerson(newPerson)
-    PersonDTO(name = result.name)
+    val pe = service.addPerson(newPerson)
+    PersonDTO(id = pe.id, name = pe.name)
   }
 
   @Inject
