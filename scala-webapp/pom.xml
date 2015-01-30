@@ -68,4 +68,14 @@
             <version>2.4.0</version>
         </dependency>
     </dependencies>
+    <build>
+        <finalName>zzz</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.2.Final</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

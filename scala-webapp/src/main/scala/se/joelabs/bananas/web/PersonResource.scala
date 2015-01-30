@@ -19,9 +19,9 @@ class WebApp {
   @GET
   @Path("/{id}")
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def getPersonByName(id: Long @PathParam("id")): PersonDTO = {
+  def getPersonByName(@PathParam("id") id: String): PersonDTO = {
     println(s"ID=$id")
-    val result = service.getPersonByName(id)
+    val result = service.getPersonByName(java.lang.Long.parseLong(id))
     PersonDTO(name = result.name)
   }
 
