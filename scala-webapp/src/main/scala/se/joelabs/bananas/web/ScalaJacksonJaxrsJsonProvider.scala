@@ -139,13 +139,16 @@ class ScalaJacksonJaxrsJsonProvider extends JacksonJaxbJsonProvider {
     def canEqual(other: Any): Boolean = other.isInstanceOf[ClassAnnotationKey]
 
     override def equals(o: Any): Boolean = {
-      if (this == o) return true
-      if (o == null || getClass != o.getClass) return false
-
-      val that: ClassAnnotationKey = o.asInstanceOf[ClassAnnotationKey]
-
-      if (!annotations.equals(that.annotations)) return false
-      if (!classKey.equals(that.classKey)) return false
+      o match {
+        case that: ClassAnnotationKey =>
+          if (that eq this) return true
+          else {
+            if (!annotations.equals(that.annotations)) return false
+            if (!classKey.equals(that.classKey)) return false
+          }
+        case _ =>
+          if (o == null || getClass != o.getClass) return false
+      }
 
       true
     }

@@ -9,7 +9,7 @@ import se.joelabs.bananas.service.PersonService
 case class PersonDTO(id: Long, name: String, age: Int = 0)
 
 @Path("/persons")
-class WebApp {
+class PersonResource {
   @GET
   @Path("/")
   @Produces(Array(MediaType.APPLICATION_JSON))
@@ -19,8 +19,8 @@ class WebApp {
   @GET
   @Path("/{id}")
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def getPersonByName(@PathParam("id") id: String): PersonDTO = {
-    val pe = service.getPersonByName(java.lang.Long.parseLong(id))
+  def getPersonById(@PathParam("id") id: String): PersonDTO = {
+    val pe = service.getPersonById(java.lang.Long.parseLong(id))
     PersonDTO(id = pe.id, name = pe.name)
   }
 
@@ -31,6 +31,23 @@ class WebApp {
   def addPerson(newPerson: PersonDTO): PersonDTO = {
     val pe = service.addPerson(newPerson)
     PersonDTO(id = pe.id, name = pe.name)
+  }
+
+  @GET
+  @Path("/scala/{id}")
+  @Produces(Array(MediaType.APPLICATION_JSON))
+  def getScalaPersonById(@PathParam("id") id: java.lang.Long): PersonDTO = {
+    val pe = service.scalaPerson(id)
+    PersonDTO(id = pe.id, name = pe.name, age = pe.age)
+  }
+
+  @POST
+  @Path("/scala/")
+  @Produces(Array(MediaType.APPLICATION_JSON))
+  @Consumes(Array(MediaType.APPLICATION_JSON))
+  def addScalaPerson(newPerson: PersonDTO): PersonDTO = {
+    val pe = service.addScalaPerson(newPerson)
+    PersonDTO(id = pe.id, name = pe.name, age = pe.age)
   }
 
   @Inject
