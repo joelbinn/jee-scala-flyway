@@ -4,7 +4,7 @@ import javax.inject.Named
 import javax.persistence.{EntityManager, PersistenceContext}
 import javax.transaction.Transactional
 
-import se.joelabs.bananas.entity.PersonEntity
+import se.joelabs.bananas.entity.{Person, PersonEntity}
 import se.joelabs.bananas.web.PersonDTO
 
 import scala.collection.JavaConversions._
@@ -21,6 +21,11 @@ import scala.collection.JavaConversions._
 class PersonService {
   @PersistenceContext(name = "FlywayPU")
   protected var em: EntityManager = _
+
+  def scalaPerson(id: Long): Person =
+    em.createQuery("SELECT p FROM Person p WHERE p.id = :id", classOf[Person])
+      .setParameter("id", id)
+      .getSingleResult
 
   def getPersonByName(id: Long): PersonEntity =
     em.createQuery("SELECT p FROM PersonEntity p WHERE p.id = :id", classOf[PersonEntity])
